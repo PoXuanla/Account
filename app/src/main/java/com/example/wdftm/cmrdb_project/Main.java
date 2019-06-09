@@ -14,6 +14,10 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        getSupportActionBar().hide();
+        //設定隱藏狀態
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
         Main_insertButton = (ImageButton)findViewById(R.id.Main_insertButton);
         Main_viewButton = (ImageButton)findViewById(R.id.Main_viewButton);
         Main_checkButton = (ImageButton)findViewById(R.id.Main_checktButton);

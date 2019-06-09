@@ -98,11 +98,11 @@ public class SQLite extends SQLiteOpenHelper {
         db.close();
         return a;
     }
-    public int GetcCategory_TotalPrice_Month(String string){
+    public int GetcCategory_TotalPrice_Month(String date,String string){
         SQLiteDatabase db = this.getWritableDatabase();
         int a = 0;
         Cursor cursor = db.rawQuery("SELECT sum(PRICE) FROM Account WHERE DATE like "
-                + "'" + "2019/6%" + "'"
+                + "'" + date + "'"
                 +"AND CATEGORY = "+"'"+ string + "'", null);
         while (cursor.moveToNext())
             a = cursor.getInt(0);

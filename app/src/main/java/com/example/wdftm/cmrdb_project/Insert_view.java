@@ -23,6 +23,10 @@ public class Insert_view extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.insert_view);
+        getSupportActionBar().hide();
+        //設定隱藏狀態
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
         insertDate = (EditText)findViewById(R.id.insertDate);
         price = (EditText)findViewById(R.id.price);
         thingname =(EditText)findViewById(R.id.thingname);

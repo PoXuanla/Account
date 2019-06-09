@@ -4,24 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@drawable/bg"
     android:orientation="vertical">
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account"
+        android:typeface="monospace"
+        android:textSize="30dp"/>
     <ImageButton
         android:id="@+id/Main_insertButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
+        android:src="@drawable/write"
+        android:background="#00000000"
        />
     <ImageButton
         android:id="@+id/Main_viewButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
+        android:src="@drawable/view"
+        android:background="#00000000"
         />
     <ImageButton
         android:id="@+id/Main_checktButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
+        android:src="@drawable/chart"
+        android:background="#00000000"
         />
 </LinearLayout>

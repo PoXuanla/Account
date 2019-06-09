@@ -3,7 +3,11 @@ package com.example.wdftm.cmrdb_project;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -11,29 +15,90 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Category extends AppCompatActivity {
 
     SQLite OpenHelper;
-    int food,cloth,live,walk,play;
+    int food,cloth,live,walk,play,year,month;
     PieChart mPiechart;
+    Button nextright,nextleft;
     private String[] Stars = new String[]{"食", "衣", "住", "行", "樂"};
     private int[] number;
-
+    String currentDay,SQLday;
+    TextView day,percent;
+    float allprice;
+    DecimalFormat df=new DecimalFormat("#.##");
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.category);
+        getSupportActionBar().hide();
+        //設定隱藏狀態
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+        mPiechart = (PieChart) findViewById(R.id.mPieChart);
+        nextright = (Button)findViewById(R.id.nextright);
+        nextleft = (Button)findViewById(R.id.nextleft);
+        day = (TextView)findViewById(R.id.day);
+        percent = (TextView)findViewById(R.id.percent);
         OpenHelper = new SQLite(this);
 
-        int food = OpenHelper.GetcCategory_TotalPrice_Month("食");
-        int cloth = OpenHelper.GetcCategory_TotalPrice_Month("衣");
-        int live = OpenHelper.GetcCategory_TotalPrice_Month("住");
-        int walk = OpenHelper.GetcCategory_TotalPrice_Month("行");
-        int play = OpenHelper.GetcCategory_TotalPrice_Month("樂");
+        Date date = new Date();
+        SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyyM");
+        currentDay = bartDateFormat.format(date);
+
+
+         year = Integer.parseInt(currentDay.substring(0,4));
+         month = Integer.parseInt(currentDay.substring(4,5));
+        SQLday = year+"/"+month+"%";
+         day.setText(year+" 年 "+month +" 月");
+
+      //  str = str + "%";
+       // Toast.makeText(getApplicationContext(),month,Toast.LENGTH_LONG).show();
+         food = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"食");
+         cloth = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"衣");
+         live = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"住");
+         walk = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"行");
+         play = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"樂");
         number = new int[]{food,cloth,live,walk,play};
-        mPiechart = (PieChart) findViewById(R.id.mPieChart);
         initView();
+         allprice= food+cloth+live+walk+play;
+
+        percent.setText("食 :　" + df.format(((float)food/allprice)*100)+"%\n"+
+                "衣 :　" + df.format(((float)cloth/allprice)*100)+"%\n"+
+                "住 :　" + df.format(((float)live/allprice)*100)+"%\n"+
+                "行 :　" + df.format(((float)walk/allprice)*100)+"%\n"+
+                "樂 :　" + df.format(((float)play/allprice)*100)+"%\n");
+        nextright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(month + 1 ==13){
+                    year += 1;
+                    month = 1;
+                }
+                else{
+                    month += 1;
+                }
+               changeChart();
+            }
+        });
+        nextleft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(month - 1 ==0){
+                    year -= 1;
+                    month = 12;
+                }
+                else{
+                    month -= 1;
+                }
+                changeChart();
+            }
+        });
+
 
 
     }
@@ -58,7 +123,7 @@ public class Category extends AppCompatActivity {
         //设置图表描述的字体
         mPiechart.setDescriptionTextSize(14);
         //设置图表描述的位置
-        mPiechart.setDescriptionPosition(950, 950);
+        mPiechart.setDescriptionPosition(0, 0);
         //设置是否可转动
         mPiechart.setRotationEnabled(true);
     }
@@ -89,6 +154,25 @@ public class Category extends AppCompatActivity {
         //设置饼图上显示数据的字体大小
         piedata.setValueTextSize(15);
         mPiechart.setData(piedata);
+    }
+    private void changeChart(){
+        SQLday = year+"/"+month+"%";
+        Toast.makeText(getApplicationContext(),SQLday,Toast.LENGTH_LONG).show();
+        day.setText(year+" 年 "+month +" 月");
+        food = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"食");
+        cloth = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"衣");
+        live = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"住");
+        walk = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"行");
+        play = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"樂");
+        //Toast.makeText(getApplicationContext(),food,Toast.LENGTH_LONG).show();
+        number = new int[]{food,cloth,live,walk,play};
+        initView();
+        allprice= food+cloth+live+walk+play;
+        percent.setText("食 :　" + df.format(((float)food/allprice)*100)+"%\n"+
+                "衣 :　" + df.format(((float)cloth/allprice)*100)+"%\n"+
+                "住 :　" + df.format(((float)live/allprice)*100)+"%\n"+
+                "行 :　" + df.format(((float)walk/allprice)*100)+"%\n"+
+                "樂 :　" + df.format(((float)play/allprice)*100)+"%\n");
     }
 }
 
