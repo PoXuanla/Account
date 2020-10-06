@@ -47,13 +47,19 @@ public class Category extends AppCompatActivity {
         OpenHelper = new SQLite(this);
 
         Date date = new Date();
-        SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyyM");
+        SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyyMM");
         currentDay = bartDateFormat.format(date);
 
 
          year = Integer.parseInt(currentDay.substring(0,4));
-         month = Integer.parseInt(currentDay.substring(4,5));
-        SQLday = year+"/"+month+"%";
+        month = Integer.parseInt(currentDay.substring(4, 6));
+        Log.v("ads", Integer.toString(month));
+        if (month == 1) {
+            SQLday = year + "/" + month + "    /%";
+        } else {
+            SQLday = year + "/" + month + "%";
+
+        }
          day.setText(year+" 年 "+month +" 月");
 
       //  str = str + "%";
@@ -156,7 +162,13 @@ public class Category extends AppCompatActivity {
         mPiechart.setData(piedata);
     }
     private void changeChart(){
-        SQLday = year+"/"+month+"%";
+        if (month == 1) {
+            SQLday = year + "/" + month + "    /%";
+        } else {
+            SQLday = year + "/" + month + "%";
+
+        }
+//        SQLday = year+"/"+month+"%";
         Toast.makeText(getApplicationContext(),SQLday,Toast.LENGTH_LONG).show();
         day.setText(year+" 年 "+month +" 月");
         food = OpenHelper.GetcCategory_TotalPrice_Month(SQLday,"食");

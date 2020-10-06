@@ -42,7 +42,6 @@ public class dayOfCalen  extends AppCompatActivity {
         CalenTitle.setText(MainActivity.Cyear + "年" + MainActivity.Cmonth + "月" + MainActivity.CdayOMonth + "日");//設定CalenTitle 日期名稱
 
         Dataquantity = OpenHelper.getDataQuantity(Calen); //取得資料總筆數
-
         int a = OpenHelper.GetTotalPrice(Calen); //取得該日期總花費金額
 
         CalenTotalPrice.setText("總花費金額 : "+Integer.toString(a)); //設定CalenTotalPrice 總花費金額

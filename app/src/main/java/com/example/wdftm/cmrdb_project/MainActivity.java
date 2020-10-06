@@ -29,8 +29,15 @@ public class MainActivity extends AppCompatActivity {
               //  Toast.makeText(getApplicationContext(),dayOfMonth+"  dd",Toast.LENGTH_LONG).show();
                 Cyear = year;
                 Cmonth = month+1;
+                String day;
+
+                if (dayOfMonth < 10) {
+                    day = "0" + Integer.toString(dayOfMonth);
+                } else {
+                    day = Integer.toString(dayOfMonth);
+                }
                 CdayOMonth = dayOfMonth;
-                Calen = year +"/" + Cmonth + "/" + dayOfMonth;
+                Calen = year + "/" + Cmonth + "/" + day;
                 Toast.makeText(getApplicationContext(),Calen,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this,dayOfCalen.class);
                 startActivity(intent);

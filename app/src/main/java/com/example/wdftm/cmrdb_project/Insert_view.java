@@ -36,17 +36,14 @@ public class Insert_view extends AppCompatActivity {
 
         //設定 insertData 的預設文字
         Date date = new Date();
-        SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyyMdd");
+        SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyyMMdd");
         String str = bartDateFormat.format(date);
-        String strr = "";
-        if(str.charAt(5)=='0'){
-           for(int i= 0;i<str.length();i++){
-               if(i==5) continue;
-               if(i==4 || i==6)strr+="/";
-               strr += str.charAt(i);
-           }
-        }
-        insertDate.setText(strr);
+        String year = str.substring(0, 4);
+        String month = str.substring(4, 6);
+        String day = str.substring(6, 8);
+        str = year + "/" + month + "/" + day;
+
+        insertDate.setText(str);
         //設定種類的字串
         ArrayAdapter<String> spinner = new ArrayAdapter<>(Insert_view.this,android.R.layout.simple_list_item_1,spinnerData);
         insertSpinner.setAdapter(spinner);

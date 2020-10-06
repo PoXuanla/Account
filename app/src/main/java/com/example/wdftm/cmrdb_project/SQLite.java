@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -48,24 +49,26 @@ public class SQLite extends SQLiteOpenHelper {
     }
     //輸入資料到SQLite
     public void insertData(String DATE, String CATEGORY, String NAME, int PRICE) {
+        Log.v("InputDate", DATE);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Col_Date, DATE);
         contentValues.put(Col_Category, CATEGORY);
         contentValues.put(Col_Name, NAME);
         contentValues.put(Col_Price, PRICE);
-
         db.insert(Table_Account, null, contentValues);
 
     }
     //取得特定日期共有幾筆資料
     public int getDataQuantity(String Calen) {
+        Log.v("s", Calen);
         int i = 0;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM Account WHERE DATE =" + "'" + Calen + "'", null);
         while (cursor.moveToNext()) {
             i++;
         }
+
         db.close();
         return i;
     }
